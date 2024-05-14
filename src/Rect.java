@@ -34,18 +34,7 @@ public class Rect
 	}
 	
 
-	public Rect(int x, int y, int w, int h)
-	{
-		this.x = x;
-		this.y = y;
-		
-		this.w = w;
-		this.h = h;
 	
-
-		old_x = x;
-		old_y = y;	
-	}
 	
 	public void grabbed()
 	{
