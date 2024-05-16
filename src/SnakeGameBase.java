@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public abstract class TileGameBase extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public abstract class SnakeGameBase extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
 	// Create variables here
 	

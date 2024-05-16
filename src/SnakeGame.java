@@ -5,7 +5,7 @@ import java.util.*
 ;
 import java.util.Random;
 
-public class TileGame extends TileGameBase
+public class SnakeGame extends SnakeGameBase
 {
 
 
