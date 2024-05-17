@@ -1,12 +1,14 @@
 import java.awt.KeyboardFocusManager;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class GameFrame extends JFrame{
 	
 	GameFrame(){	
 		this.add(new GamePanel());
 		this.setTitle("Snake");
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.pack();
@@ -14,7 +16,9 @@ public class GameFrame extends JFrame{
 		if( !isVisible( ) ) {
 			this.setVisible( true );
 			this.toFront();
-			this.setAlwaysOnTop( true );
+			//this.setAlwaysOnTop( true );
 		}
 	  }
 	}
+	
+    
