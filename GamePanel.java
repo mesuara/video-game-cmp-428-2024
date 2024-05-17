@@ -16,6 +16,15 @@ public class GamePanel extends JPanel implements ActionListener{
 	int applesEaten;
 	int applex;
 	int appley;
+	
+	
+	int appleWidth = 2 * UNIT_SIZE;
+	int appleHeight = 2 * UNIT_SIZE;
+	int adjustedApplex = applex;
+	int adjustedAppley = appley;
+	
+	public Image apple;
+	// = Toolkit.getDefaultToolkit().getImage("apple.png");
 	char direction = 'R';
 	boolean running = false;
 	Timer timer;
@@ -30,13 +39,29 @@ public class GamePanel extends JPanel implements ActionListener{
 		startGame();
 		
 	}
+
+	// NEw STUFF ADDED
 	public void startGame() {
 		newApple();
 		running = true;
+		bodyParts = 6; // Reset body parts
+		applesEaten = 0; // Reset apples eaten
+		direction = 'R'; // Reset direction
+		for (int i = 0; i < bodyParts; i++) {
+			x[i] = 0; // Reset snake's x positions
+			y[i] = 0; // Reset snake's y positions
+		}
+		loadImages();
 		timer = new Timer(DELAY, this);
 		timer.start();
-		
 	}
+
+	//NEW
+	private void loadImages() {
+        // Load the apple image
+        ImageIcon img = new ImageIcon("Image/apple.png");
+        apple = img.getImage();
+    }
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -45,11 +70,15 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void draw(Graphics g) {
 		if(running) {
 			for (int i=0; i<SCREEN_HEIGHT/UNIT_SIZE; i++) {
-				g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);//(x1,y1,x2,y2)
-				g.drawLine(0, i*UNIT_SIZE, SCREEN_WIDTH, i*UNIT_SIZE);
+				g.drawLine(i*25, 0, i*UNIT_SIZE, SCREEN_HEIGHT);//(x1,y1,x2,y2)
+				g.drawLine(0, i*25, SCREEN_WIDTH, i*UNIT_SIZE);
 			}
-			g.setColor(Color.red);
-			g.fillOval(applex, appley, UNIT_SIZE, UNIT_SIZE);
+
+			//NEW STUFF
+			g.drawImage(apple, adjustedApplex, adjustedAppley, appleWidth, appleHeight, null);
+			//g.drawImage(apple, applex, appley, UNIT_SIZE, UNIT_SIZE, null);
+			//g.setColor(Color.red);
+			//g.fillOval(applex, appley, UNIT_SIZE, UNIT_SIZE);
 		
 			for(int i=0; i< bodyParts; i++) {
 				if (i==0) {
@@ -64,6 +93,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			}
 			g.setColor(Color.red);
+			//g.drawImage(apple, applex, appley, UNIT_SIZE, UNIT_SIZE, null);
 			g.setFont(new Font("Papyrus",Font.BOLD, 40));
 			FontMetrics metrics = getFontMetrics(g.getFont());
 			g.drawString("Score: "+ applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: "+ applesEaten))/2, g.getFont().getSize());
@@ -75,6 +105,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void newApple() {
 		applex = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE))*UNIT_SIZE;
 		appley = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE))*UNIT_SIZE;
+
+		adjustedApplex = applex - UNIT_SIZE / 2; // Adjusted x-coordinate
+		adjustedAppley = appley - UNIT_SIZE / 2; // Adjusted y-coordinate
 	}
 	
 	public void move() {
@@ -137,6 +170,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	public void gameOver(Graphics g) {
 		//Score
+		running = false;
 		g.setColor(Color.red);
 		g.setFont(new Font("Papyrus",Font.BOLD, 40));
 		FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -147,6 +181,16 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setFont(new Font("Papyrus",Font.BOLD, 75));
 		FontMetrics metrics2 = getFontMetrics(g.getFont());
 		g.drawString("GAME OVER", (SCREEN_WIDTH - metrics2.stringWidth("GAME OVER"))/2, SCREEN_HEIGHT/2);
+	
+		Timer delayTimer = new Timer(2000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				promptPlayAgain();
+				((Timer) e.getSource()).stop(); // Stop the timer after executing once
+			}
+		});
+		delayTimer.setRepeats(false); // Execute the action only once
+		delayTimer.start();
 	}
 	
 	@Override
@@ -188,4 +232,16 @@ public class GamePanel extends JPanel implements ActionListener{
 			}
 		}
 	}
+
+	//NEW STUFF
+	private void promptPlayAgain() {
+        int yesNo = JOptionPane.showConfirmDialog(null, "Play Again?","Yes or No", JOptionPane.YES_NO_OPTION);
+        if(yesNo == JOptionPane.YES_OPTION){
+            startGame();
+			draw(getGraphics());
+            }
+        else{
+            System.exit(JFrame.EXIT_ON_CLOSE);
+        }
+    }
 }
