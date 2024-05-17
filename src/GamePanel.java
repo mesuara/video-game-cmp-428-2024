@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	public Image apple;
 	BackgroundMusic bgMusic = new BackgroundMusic();
 	BackgroundMusic biteSound =  new BackgroundMusic();
+
 	
 	// = Toolkit.getDefaultToolkit().getImage("apple.png");
 	char direction = 'R';
@@ -55,7 +56,8 @@ public class GamePanel extends JPanel implements ActionListener{
 			y[i] = 0; // Reset snake's y positions
 		}
 		loadImages();
-		bgMusic.playMusic("Audio/technicko.wav");
+		
+		bgMusic.playMusic("Audio/bg1.wav");
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
@@ -103,8 +105,10 @@ public class GamePanel extends JPanel implements ActionListener{
 			g.drawString("Score: "+ applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: "+ applesEaten))/2, g.getFont().getSize());
 		}
 		else {
+			
 			gameOver(g);
 		}
+	
 	}
 	public void newApple() {
 		applex = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE))*UNIT_SIZE;
@@ -175,8 +179,10 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	public void gameOver(Graphics g) {
 		//Score
+	
 		running = false;
 		bgMusic.stopMusic();
+		
 		g.setColor(Color.red);
 		g.setFont(new Font("Papyrus",Font.BOLD, 40));
 		FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -244,6 +250,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	private void promptPlayAgain() {
         int yesNo = JOptionPane.showConfirmDialog(null, "Play Again?","Yes or No", JOptionPane.YES_NO_OPTION);
         if(yesNo == JOptionPane.YES_OPTION){
+        	
             startGame();
 			draw(getGraphics());
             }
