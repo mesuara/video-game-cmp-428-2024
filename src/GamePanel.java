@@ -24,6 +24,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	int adjustedAppley = appley;
 	
 	public Image apple;
+	BackgroundMusic bgMusic = new BackgroundMusic();
+	BackgroundMusic biteSound =  new BackgroundMusic();
+	
 	// = Toolkit.getDefaultToolkit().getImage("apple.png");
 	char direction = 'R';
 	boolean running = false;
@@ -52,6 +55,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			y[i] = 0; // Reset snake's y positions
 		}
 		loadImages();
+		bgMusic.playMusic("Audio/technicko.wav");
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
@@ -135,6 +139,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	public void checkApple() {
 		if((x[0] == applex) && (y[0] == appley)) {
+			biteSound.playSoundEffect("Audio/apple_bite.wav");
 			bodyParts++;
 			applesEaten++;
 			newApple();
@@ -171,6 +176,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void gameOver(Graphics g) {
 		//Score
 		running = false;
+		bgMusic.stopMusic();
 		g.setColor(Color.red);
 		g.setFont(new Font("Papyrus",Font.BOLD, 40));
 		FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -200,6 +206,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			move();
 			checkApple();
 			checkCollisions();
+			
 			
 		}
 		repaint();

@@ -1,49 +1,9 @@
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*
-;
-import java.util.Random;
 
-public class SnakeGame extends SnakeGameBase
-{
+public class snakeGame {
 
-
-	
-	
-	public void initialize()
-	{
+	public static void main(String[] args) {
 		
-		setSize(500,600);
-
-		
+		new GameFrame();
 	}
-	
-			
-	
-	public void inGameLoop()
-	{
-		
 
-
-	}
-	
-
-	
-	public void paint(Graphics pen)
-	{   
-		
-
-	}
-	
-
-
-
-
-
-	
-
-	
-
-	
 }
